@@ -10,7 +10,7 @@ body {
 }
 
 /* Card */
-.card {
+.card{
   width: 340px;
   height: 500px;
   background: linear-gradient(135deg, #20e3b2, #29ffc6 40%, #0099f7 100%);

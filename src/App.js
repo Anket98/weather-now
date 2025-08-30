@@ -6,8 +6,7 @@ import "./App.css";
  * Weather Now — Open-Meteo version
  * - Type a city name -> we geocode (Open-Meteo Geocoding API)
  * - Then fetch current weather -> show a clean card
- * - No API key needed
- */
+ *  */
 
 export default function App() {
   const [city, setCity] = useState("");
