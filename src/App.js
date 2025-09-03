@@ -51,9 +51,7 @@ export default function App() {
     try {
       // 1) Geocode city -> lat/lon (Open-Meteo geocoding, no key)
       const geoRes = await fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-          city
-        )}&count=1`
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`
       );
       if (!geoRes.ok) throw new Error("Geocoding failed");
       const geoData = await geoRes.json();
@@ -67,7 +65,7 @@ export default function App() {
 
       // 2) Fetch current weather
       const meteoRes = await fetch(
-       ` https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
       if (!meteoRes.ok) throw new Error("Weather fetch failed");
       const meteo = await meteoRes.json();
 
@@ -78,7 +76,9 @@ export default function App() {
         winddir: cw.winddirection, // degree
         time: cw.time,
         city: name,
-        country: country_code
+        country: country_code,
+        code: cw.weathercode, // for icon
+        inter:cw.interval
       });
     } catch (e) {
       setError(e.message || "Something went wrong");
@@ -122,7 +122,7 @@ export default function App() {
               {weather.city} {weather.country ? `• ${weather.country}` : ""}
             </div>
             {weather.time && (
-              <p className="time">🕒 {new Date(weather.time).toLocaleString()}</p>
+              <p className="time">🕒 {new Date(weather.time + "Z").toLocaleString("en-US", {timeZone:"Asia/kolkata"})}</p>
             )}
             
             <div className="row">
@@ -137,6 +137,10 @@ export default function App() {
               <div className="pill">
                 <span className="label">Direction</span>
                 <span className="value">{weather.winddir}°</span>
+              </div>
+              <div className="pill">
+                <span className="label">Interval</span>
+                <span className="value">{weather.inter/60} min</span>
               </div>
               
             </div>
