@@ -42,6 +42,22 @@ export default function App() {
     99: { icon: "⛈", text: "Thunderstorm w/ heavy hail" }
   };
 
+  function degreeTOArrow(degree) {
+    const directions = [
+    { arrow: "↑", text: "N" },
+    { arrow: "↗", text: "NE" },
+    { arrow: "→", text: "E" },
+    { arrow: "↘", text: "SE" },
+    { arrow: "↓", text: "S" },
+    { arrow: "↙", text: "SW" },
+    { arrow: "←", text: "W" },
+    { arrow: "↖", text: "NW" }
+  ];
+  const index = Math.round(degree / 45) % 8;
+  return directions[index].arrow + " " + directions[index].text;
+}
+  
+
   async function fetchWeather() {
     if (!city.trim()) return;
     setLoading(true);
@@ -73,7 +89,7 @@ export default function App() {
       setWeather({
         temp: cw.temperature, // °C by default
         windspeed: cw.windspeed, // km/h
-        winddir: cw.winddirection, // degree
+        degree: cw.winddirection, // degree
         time: cw.time,
         city: name,
         country: country_code,
@@ -136,7 +152,7 @@ export default function App() {
               </div>
               <div className="pill">
                 <span className="label">Direction</span>
-                <span className="value">{weather.winddir}°</span>
+                <span className="value">{degreeTOArrow(weather.degree)}</span>
               </div>
               <div className="pill">
                 <span className="label">Interval</span>
